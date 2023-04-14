@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import android.util.Log
 import com.example.data.database.CameraDB
 import com.example.data.servises.CamerasApi
 import com.example.domain.models.CameraDomain
@@ -16,12 +17,12 @@ class CamerasRepositoryImpl @Inject constructor(
     private val camerasApi: CamerasApi
 ): CamerasRepository {
     override suspend fun getCamerasList(): Flow<List<CameraDomain>> {
-        val doorsSize = Realm.getDefaultInstance()
+        val camerasSize = Realm.getDefaultInstance()
             .where(CameraDB::class.java)
             .findAll()
             .size
-
-        if (doorsSize == 0){
+        Log.e("CamerasRepo","camerasSize =$camerasSize")
+        if (camerasSize == 0){
             updateCameraDBTable()
         }
 
@@ -46,6 +47,7 @@ class CamerasRepositoryImpl @Inject constructor(
 
     private suspend fun updateCameraDBTable(){
         val response = camerasApi.getCamerasList()
+        Log.e("CamerasRepo","response =$response")
         if (response.success) {
             val realm = Realm.getDefaultInstance()
             realm.beginTransaction()

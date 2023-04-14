@@ -4,7 +4,7 @@ data class CameraDomain(
     val id: Int,
     val name: String,
     val snapshot: String,
-    var room: String,
+    var room: String? = "",
     val favorites: Boolean,
     val rec: Boolean
 )

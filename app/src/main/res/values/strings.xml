@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Ric Masters</string>
+    <string name="app_camera_preview">Предпросмотр</string>
+    <string name="app_play_button">Показать видео</string>
+    <string name="app_online">В сети</string>
+    <string name="app_lock">Закрыто</string>
+    <string name="app_record">Запись</string>
+    <string name="app_favorite">Избранное</string>
+    <string name="app_edit">Изменить</string>
+    <string name="app_cameras">Камеры</string>
+    <string name="app_doors">Двери</string>
+    <string name="app_title">Мой дом</string>
+    <string name="app_door_name">Название двери:</string>
+    <string name="app_dialog_cansel">Отмена</string>
+    <string name="app_dialog_save">Сохранить</string>
 </resources>

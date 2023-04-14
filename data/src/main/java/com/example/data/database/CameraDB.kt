@@ -11,7 +11,7 @@ open class CameraDB : RealmObject() {
     var id: Int = 0
     var name: String = ""
     var snapshot: String = ""
-    var room: String = ""
+    var room: String? = ""
     var favorites: Boolean = false
     var rec: Boolean = false
 
