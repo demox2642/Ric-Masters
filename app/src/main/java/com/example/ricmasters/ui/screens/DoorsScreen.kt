@@ -4,7 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.IconButton
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,14 +20,22 @@ import com.example.ricmasters.R
 import com.example.ricmasters.ui.screens.listItem.DoorListItem
 import com.example.ricmasters.ui.screens.models.EditDoor
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DoorsScreen(doors: List<DoorsDomain>,
                 revealedDoorsState: List<Int>,
                 changeFavoriteState:(Int, Boolean)-> Unit,
                 onItemCollapsed:(Int)->Unit,
                 onItemExpanded:(Int)->Unit,
-                editDoor: (EditDoor)-> Unit
+                editDoor: (EditDoor)-> Unit,
+                update: () -> Unit
 ) {
+    val ptrState = rememberPullRefreshState(false, update)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(ptrState)
+    ) {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -70,4 +82,6 @@ fun DoorsScreen(doors: List<DoorsDomain>,
             }
         }
     }
+    PullRefreshIndicator(true, ptrState, Modifier.align(Alignment.TopCenter))
+}
 }

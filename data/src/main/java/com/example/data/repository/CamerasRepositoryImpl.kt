@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CamerasRepositoryImpl @Inject constructor(
-    private val camerasApi: CamerasApi
+    private val camerasApi: CamerasApi,
 ): CamerasRepository {
     override suspend fun getCamerasList(): Flow<List<CameraDomain>> {
         val camerasSize = Realm.getDefaultInstance()
@@ -43,6 +43,15 @@ class CamerasRepositoryImpl @Inject constructor(
                 ?.favorites = favorites
         }
         realm.close()
+    }
+
+    override suspend fun refreshCamerasData(): Flow<List<CameraDomain>> {
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.delete(CameraDB::class.java)
+        realm.commitTransaction()
+
+        return getCamerasList()
     }
 
     private suspend fun updateCameraDBTable(){

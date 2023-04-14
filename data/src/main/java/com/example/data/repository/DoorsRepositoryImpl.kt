@@ -55,6 +55,15 @@ class DoorsRepositoryImpl @Inject constructor(
         realm.close()
     }
 
+    override suspend fun refreshDoorData(): Flow<List<DoorsDomain>> {
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.delete(DoorDB::class.java)
+        realm.commitTransaction()
+
+        return getDoorsList()
+    }
+
     private suspend fun updateDoorsDBTable(){
         val response = doorsApi.getDoorsList()
         if (response.success) {

@@ -1,6 +1,5 @@
 package com.example.ricmasters.ui.screens
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +19,9 @@ class MainViewModel @Inject constructor(
     private val getCamerasListUseCase: GetCamerasListUseCase,
     private val setDoorFavoriteUseCase: SetDoorFavoriteUseCase,
     private val changeDoorNameUseCase: ChangeDoorNameUseCase,
-    private val setCameraFavoriteUseCase: SetCameraFavoriteUseCase
+    private val setCameraFavoriteUseCase: SetCameraFavoriteUseCase,
+    private val refreshCamerasDataUseCase: RefreshCamerasDataUseCase,
+    private val refreshDoorsDataUseCase: RefreshDoorsDataUseCase
 ):ViewModel () {
     private val _doors = MutableLiveData<List<DoorsDomain>>()
     val doors:LiveData<List<DoorsDomain>> = _doors
@@ -38,14 +39,12 @@ class MainViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getDoorsListUseCase.getDoorsList().collectLatest {
-                Log.e("MainViewModel","doors = $it")
                 _doors.postValue(it)
             }
 
         }
         viewModelScope.launch {
             getCamerasListUseCase.getCamerasList().collectLatest {
-                Log.e("MainViewModel","Cameras = $it")
                 _cameras.postValue(it)
             }
         }
@@ -92,11 +91,20 @@ class MainViewModel @Inject constructor(
     }
 
     fun doorsRefreshData(){
+        viewModelScope.launch {
+            refreshDoorsDataUseCase.refreshDoorData().collectLatest {
+                _doors.postValue(it)
+            }
 
+        }
     }
 
     fun camerasRefreshData(){
-
+        viewModelScope.launch {
+            refreshCamerasDataUseCase.refreshCamerasData().collectLatest {
+                _cameras.postValue(it)
+            }
+        }
     }
     fun allDoorsCollapse(){
         _revealedDoors.value = _revealedDoors.value!!.toMutableList().also { list ->

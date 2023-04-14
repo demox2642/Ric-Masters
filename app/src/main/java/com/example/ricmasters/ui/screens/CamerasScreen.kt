@@ -6,9 +6,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -22,14 +26,22 @@ import com.example.ricmasters.ui.theme.Circle
 import com.example.ricmasters.ui.theme.PrimaryBackgroundColor
 import com.example.ricmasters.ui.theme.TextGroupColor
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun CamerasScreen(cameras: List<CameraDomain>,revealedCameraState: List<Int>,
                   onCollapse:(Int)->Unit,
                   onExpand:(Int)->Unit,
-                  changeFavoriteState:(Int, Boolean)-> Unit
+                  changeFavoriteState:(Int, Boolean)-> Unit,
+                  update: () -> Unit
 ) {
     val grouped = cameras.groupBy { it.room }
+
+    val ptrState = rememberPullRefreshState(false, update)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(ptrState)
+    ) {
     LazyColumn(
        modifier = Modifier
             .fillMaxSize(),
@@ -75,5 +87,7 @@ fun CamerasScreen(cameras: List<CameraDomain>,revealedCameraState: List<Int>,
             }
         }
 
+    }
+        PullRefreshIndicator(true, ptrState, Modifier.align(Alignment.TopCenter))
     }
 }

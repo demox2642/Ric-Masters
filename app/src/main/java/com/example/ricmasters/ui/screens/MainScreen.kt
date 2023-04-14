@@ -95,7 +95,9 @@ fun MainScreen (){
                             revealedCamera!!,
                             onCollapse = viewModel::onCameraItemCollapsed,
                             onExpand = viewModel::onCameraItemExpanded,
-                            changeFavoriteState= viewModel::setCameraFavorite)
+                            changeFavoriteState= viewModel::setCameraFavorite,
+                            update = viewModel::camerasRefreshData
+                        )
                     }
                 }
                 1 -> {
@@ -105,7 +107,8 @@ fun MainScreen (){
                             changeFavoriteState = viewModel::setDoorFavorite,
                             onItemCollapsed = viewModel::onDoorsItemCollapsed,
                             onItemExpanded = viewModel::onDoorsItemExpanded,
-                            editDoor = viewModel::showEditDialog
+                            editDoor = viewModel::showEditDialog,
+                            update = viewModel::doorsRefreshData
                         )
                     }
                 }

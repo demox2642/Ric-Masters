@@ -26,4 +26,11 @@ class DomainModule {
     @Provides
     fun providesSetCameraFavoriteUseCase(camerasRepository: CamerasRepository): SetCameraFavoriteUseCase = SetCameraFavoriteUseCase(camerasRepository)
 
+    @Provides
+    fun providesRefreshDoorsDataUseCase(doorsRepository: DoorsRepository): RefreshDoorsDataUseCase = RefreshDoorsDataUseCase(doorsRepository)
+
+    @Provides
+    fun providesRefreshCamerasDataUseCase(camerasRepository: CamerasRepository): RefreshCamerasDataUseCase = RefreshCamerasDataUseCase(camerasRepository)
+
+
 }
