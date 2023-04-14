@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface DoorsRepository {
     suspend fun getDoorsList(): Flow<List<DoorsDomain>>
+    suspend fun setDoorFavorite(id: Int, favorites: Boolean)
+    suspend fun changeDoorName(id: Int, name: String)
 }

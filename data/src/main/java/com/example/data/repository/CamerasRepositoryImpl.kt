@@ -1,11 +1,8 @@
 package com.example.data.repository
 
 import com.example.data.database.CameraDB
-import com.example.data.database.DoorDB
-import com.example.data.models.Camera
 import com.example.data.servises.CamerasApi
 import com.example.domain.models.CameraDomain
-import com.example.domain.models.DoorsDomain
 import com.example.domain.repository.CamerasRepository
 import io.realm.Realm
 import io.realm.kotlin.toFlow
@@ -34,6 +31,17 @@ class CamerasRepositoryImpl @Inject constructor(
             .toFlow()
             .map { it.map(CameraDB::map) }
             .flowOn(Dispatchers.Main)
+    }
+
+    override suspend fun setCameraFavorite(id: Int, favorites: Boolean) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync {
+            it.where(CameraDB::class.java)
+                .equalTo("id", id)
+                .findFirst()
+                ?.favorites = favorites
+        }
+        realm.close()
     }
 
     private suspend fun updateCameraDBTable(){

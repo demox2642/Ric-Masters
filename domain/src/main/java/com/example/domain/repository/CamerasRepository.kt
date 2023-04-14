@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface CamerasRepository {
     suspend fun getCamerasList(): Flow<List<CameraDomain>>
+    suspend fun setCameraFavorite(id: Int, favorites: Boolean)
 }

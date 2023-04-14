@@ -1,7 +1,6 @@
 package com.example.data.repository
 
 import com.example.data.database.DoorDB
-import com.example.data.models.DoorsData
 import com.example.data.servises.DoorsApi
 import com.example.domain.models.DoorsDomain
 import com.example.domain.repository.DoorsRepository
@@ -34,7 +33,29 @@ class DoorsRepositoryImpl @Inject constructor(
             .flowOn(Dispatchers.Main)
     }
 
-     private suspend fun updateDoorsDBTable(){
+    override suspend fun setDoorFavorite(id: Int, favorites: Boolean) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync {
+            it.where(DoorDB::class.java)
+                .equalTo("id", id)
+                .findFirst()
+                ?.favorites = favorites
+        }
+        realm.close()
+    }
+
+    override suspend fun changeDoorName(id: Int, name: String) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync {
+            it.where(DoorDB::class.java)
+                .equalTo("id", id)
+                .findFirst()
+                ?.name = name
+        }
+        realm.close()
+    }
+
+    private suspend fun updateDoorsDBTable(){
         val response = doorsApi.getDoorsList()
         if (response.success) {
             val realm = Realm.getDefaultInstance()

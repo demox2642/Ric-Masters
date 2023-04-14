@@ -17,4 +17,13 @@ class DomainModule {
     @Provides
     fun providesGetDoorsListUseCase(doorsRepository: DoorsRepository): GetDoorsListUseCase = GetDoorsListUseCase(doorsRepository)
 
+    @Provides
+    fun providesSetDoorFavoriteUseCase(doorsRepository: DoorsRepository): SetDoorFavoriteUseCase = SetDoorFavoriteUseCase(doorsRepository)
+
+    @Provides
+    fun providesChangeDoorNameUseCase(doorsRepository: DoorsRepository): ChangeDoorNameUseCase = ChangeDoorNameUseCase(doorsRepository)
+
+    @Provides
+    fun providesSetCameraFavoriteUseCase(camerasRepository: CamerasRepository): SetCameraFavoriteUseCase = SetCameraFavoriteUseCase(camerasRepository)
+
 }
